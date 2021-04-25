@@ -13,7 +13,7 @@ cap=cv2.VideoCapture(0)
 cap.set(3,wCam)
 cap.set(4,hCam)
 
-folderPath=r"HandTrackingProject\fingers"
+folderPath="fingers"
 myList= os.listdir(folderPath)
 overlayList=[]
 for imPath in myList:

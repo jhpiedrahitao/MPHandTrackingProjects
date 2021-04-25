@@ -14,16 +14,20 @@ class handDetector():
         
         self.mpDraw=mp.solutions.drawing_utils
 
-    def findHands(self,img,draw=True):
+    def findHands(self,img,draw=True,drawImg=None):
+        if drawImg is None:
+            drawImg=img
         imgRGB=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
         self.results=self.hands.process(imgRGB)
         if self.results.multi_hand_landmarks:
             for handLms in self.results.multi_hand_landmarks:
                 if draw:
-                    self.mpDraw.draw_landmarks(img,handLms,self.mpHands.HAND_CONNECTIONS)
+                    self.mpDraw.draw_landmarks(drawImg,handLms,self.mpHands.HAND_CONNECTIONS)
         return img
 
-    def findPosition(self,img, handNo=0, draw=True):
+    def findPosition(self,img, handNo=0, draw=True, drawImg=None):
+        if drawImg is None:
+            drawImg=img
         lmList=[]
         if self.results.multi_hand_landmarks:
             myHand=self.results.multi_hand_landmarks[handNo]
@@ -33,7 +37,7 @@ class handDetector():
                 lmList.append([id,cx,cy])
                 if draw:
                     if id%4==0 or True:
-                        cv2.circle(img,(cx,cy),10,(255,0,255),cv2.FILLED)
+                        cv2.circle(drawImg,(cx,cy),10,(255,0,255),cv2.FILLED)
         return lmList
         
 def main():
