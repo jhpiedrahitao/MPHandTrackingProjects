@@ -28,7 +28,7 @@ class handDetector():
                     self.mpDraw.draw_landmarks(drawImg,handLms,self.mpHands.HAND_CONNECTIONS)
         return img
 
-    def findPosition(self,img, handNo=0, draw=True, drawImg=None):
+    def findPosition(self,img, handNo=0, draw=False, drawImg=None):
         if drawImg is None:
             drawImg=img
         self.lmList=[]
