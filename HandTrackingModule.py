@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import time
+import math
 
 class handDetector():
     def __init__(self,mode=False,maxHands=2,detectionConf=0.5,trackCon=0.5):
@@ -42,6 +43,20 @@ class handDetector():
                         cv2.circle(drawImg,(cx,cy),10,(255,0,255),cv2.FILLED)
         return self.lmList
 
+    def boundingBox(self,img,draw=False):
+        xList = []
+        yList = []
+        bbox=[]
+        if len(self.lmList)!=0:
+            for item in self.lmList:
+                xList.append(item[1])
+                yList.append(item[2])
+            bbox = min(xList), min(yList), max(xList), max(yList)
+            if draw:
+                cv2.rectangle(img,(bbox[0]-10,bbox[1]-10),(bbox[2]+10,bbox[3]+10),(255,128,25),3)
+        return bbox
+        
+
     def fingersUP(self):
         fingers=[]
         if self.lmList[self.tipIds[0]][1] < self.lmList[self.tipIds[0]-1][1]:
@@ -54,6 +69,17 @@ class handDetector():
             else:
                 fingers.append(0)
         return fingers
+
+    def findDistance(self,p1,p2,img,draw=True):
+        x1, y1 = self.lmList[p1][1], self.lmList[p1][2]
+        x2,y2=self.lmList[p2][1],self.lmList[p2][2]
+        cx,cy=(x1+x2)//2,(y1+y2)//2
+        if draw:
+            cv2.circle(img,(x1,y1),10,(255,0,127),cv2.FILLED)
+            cv2.circle(img,(x2,y2),10,(127,0,255),cv2.FILLED)
+            cv2.line(img,(x1,y1),(x2,y2),(127,212,34),7)
+        length=math.hypot(x2-x1,y2-y1)
+        return length, img, [x1,y1,x2,y2,cx,cy]
         
 def main():
     pTime=0
