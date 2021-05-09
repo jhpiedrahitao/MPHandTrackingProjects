@@ -75,6 +75,6 @@ while True:
     pTime=cTime
     cv2.putText(img,"fps: "+str(fps),(20,40),cv2.FONT_HERSHEY_PLAIN,1,(255,0,0),2)
 
-    #cv2.imshow("Image",img)
-    #if (cv2.waitKey(1)  & 0xFF == ord('q')):
-        #break
+    cv2.imshow("Image",img)
+    if (cv2.waitKey(1)  & 0xFF == ord('q')):
+        break
